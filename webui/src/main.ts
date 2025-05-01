@@ -7,10 +7,10 @@ import Aura from '@primevue/themes/aura'
 
 import Button from 'primevue/button'
 import Menubar from 'primevue/menubar'
+import ToggleSwitch from 'primevue/toggleswitch'
 
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
-import 'primevue/resources/themes/lara-dark-blue/theme.css'
 
 const app = createApp(App)
 app.use(PrimeVue, {
@@ -23,6 +23,7 @@ app.use(PrimeVue, {
 })
 app.component('Button', Button)
 app.component('Menubar', Menubar)
+app.component('ToggleSwitch', ToggleSwitch)
 
 app.use(router)
 app.mount('#app')

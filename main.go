@@ -1,19 +1,21 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/brunoOchoa/prime-vue-crud-mcp/internal/db"
+	"github.com/brunoOchoa/prime-vue-crud-mcp/service"
 )
 
 func main() {
 	db.Connect("localhost", "5432", "admin", "admin", "estudo_prime")
-	// if err := service.CreateUser("Alice"); err != nil {
-	// 	fmt.Println("Erro ao criar usuário:", err)
-	// } else {
-	// 	fmt.Println("Usuário criado com sucesso.")
-	// }
+	if err := service.CreateUser("Bruno Ochoa"); err != nil {
+		fmt.Println("Erro ao criar usuário:", err)
+	} else {
+		fmt.Println("Usuário criado com sucesso.")
+	}
 
 	fs := http.FileServer(http.Dir("./webui/dist"))
 	http.Handle("/", fs)
