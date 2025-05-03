@@ -2,37 +2,29 @@
     <Menubar :model="menuItems">
       <template #end>
           <div class="flex items-center gap-2">
-              <InputText placeholder="Search" type="text" class="w-32 sm:w-auto" />
-              <Avatar image="/images/avatar/amyelsner.png" shape="circle" />
+            <Button
+            :icon="darkMode ? 'pi pi-moon' : 'pi pi-sun'"
+            aria-label="Toggle Dark Mode"
+            severity="secondary"
+            :size="size"
+            @click="darkMode = !darkMode"
+            />
+            <ToggleSwitch class="align-self-center" v-model="darkMode" severity="secondary" :size="size"/>
+            <SelectButton
+            v-model="selectedTheme"
+            :options="themeOptions"
+            optionLabel="label"
+            optionValue="value"
+            @change="changeTheme"
+            :size="size"
+          />
+          <SelectButton v-model="size" :options="sizeOptions" optionLabel="label" optionValue="value" dataKey="label" :size="size"/>
           </div>
       </template>
     </Menubar>
   <div class="flex gap-2 mt-2 justify-center items-center">
       <Button label="Home" icon="pi pi-home" outlined severity="warn" @click="goTo('/')" :size="size" />
       <Button label="Usuários" icon="pi pi-user" outlined severity="danger" :size="size" @click="goTo('/users')" />
-  </div>
-  <div class="flex gap-2 mt-2">
-    <Button
-    :icon="darkMode ? 'pi pi-moon' : 'pi pi-sun'"
-    aria-label="Toggle Dark Mode"
-    severity="secondary"
-    :size="size"
-    @click="darkMode = !darkMode"
-    />
-    <ToggleSwitch class="align-self-center" v-model="darkMode" severity="secondary" :size="size"/>
-  </div>
-  <div class="flex justify-center gap-3 mt-3 w-full max-w-4xl">
-      <SelectButton v-model="size" :options="sizeOptions" optionLabel="label" optionValue="value" dataKey="label" :size="size"/>
-  </div>
-  <div class="flex justify-center gap-3 mt-3 w-full max-w-4xl">
-    <SelectButton
-        v-model="selectedTheme"
-        :options="themeOptions"
-        optionLabel="label"
-        optionValue="value"
-        @change="changeTheme"
-        :size="size"
-      />
   </div>
   <main class="mt-2 w-full max-w-4xl">
     <RouterView />
@@ -42,11 +34,8 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { ref, watch } from 'vue'
-import Aura from '@primeuix/themes/aura'
-import Lara from '@primeuix/themes/lara'
 
 const router = useRouter()
-const currentTheme = ref(Aura)
 
 const menuItems = [
   { label: 'Home', icon: 'pi pi-home', command: () => goTo('/') },
@@ -63,17 +52,20 @@ watch(darkMode, (newValue) => {
 })
 const size = ref('small');
 const sizeOptions = ref([
-    { label: 'Small', value: 'small' },
-    { label: 'Normal', value: 'normal' },
-    { label: 'Large', value: 'large' }
+    { label: 'S', value: 'small' },
+    { label: 'M', value: 'normal' },
+    { label: 'L ', value: 'large' }
 ])
-const selectedTheme = ref('Aura')
+const selectedTheme = ref(localStorage.getItem('theme') || 'Aura')
 const themeOptions = ref([
   { label: 'Aura', value: 'Aura' },
   { label: 'Lara', value: 'Lara' },
+  { label: 'Nora', value: 'Nora' },
+  { label: 'Material', value: 'Material' },
 ])
 function changeTheme() {
-  currentTheme.value = selectedTheme.value === 'Aura' ? Aura : Lara
+  localStorage.setItem('theme', selectedTheme.value)
+  window.location.reload()
 }
 
 function goTo(path: string) {

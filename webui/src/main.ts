@@ -4,21 +4,28 @@ import './style.css'
 import App from './App.vue'
 import PrimeVue from 'primevue/config'
 import Aura from '@primevue/themes/aura'
-
-import Button from 'primevue/button'
-import Menubar from 'primevue/menubar'
-import ToggleSwitch from 'primevue/toggleswitch'
-import SelectButton from 'primevue/selectbutton'
-import Dock from 'primevue/dock'
+import Lara from '@primevue/themes/lara'
+import Material from '@primevue/themes/material'
+import Nora from '@primevue/themes/nora'
 
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
+
+const themeName = localStorage.getItem('theme') || 'Aura'
+const preset =
+    themeName === 'Lara'
+        ? Lara
+        : themeName === 'Material'
+        ? Material
+        : themeName === 'Nora'
+        ? Nora
+        : Aura
 
 const app = createApp(App)
 
 app.use(PrimeVue, {
     theme: {
-        preset: Aura,
+        preset,
         options: {
             prefix: 'p-',
             cssLayer: false,
@@ -26,11 +33,5 @@ app.use(PrimeVue, {
         }
     }
 })
-app.component('Button', Button)
-app.component('Menubar', Menubar)
-app.component('ToggleSwitch', ToggleSwitch)
-app.component('SelectButton', SelectButton)
-app.component('Dock', Dock)
-
 app.use(router)
 app.mount('#app')
